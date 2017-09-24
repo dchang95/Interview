@@ -127,7 +127,7 @@ public ArrayList<Integer> postorderTraversal(TreeNode a) {
         return result;
 }
 
-// find least common ancestor in a BST
+// find least common ancestor in a BST ordered
 Node lca (Node node, int n1, int n2) {
         if (node == null) {
                 return null;
@@ -142,4 +142,41 @@ Node lca (Node node, int n1, int n2) {
         }
 
         return node;
+}
+
+Node lca (Node root, Node a, Node b) {
+    if (root == null || root == a || root == b) {
+        return root;
+    }
+    Node left = lca(root.left, a, b);
+    Node right = lca(root.right, a, b);
+    if (left == null) {
+        return right;
+    } else if (right == null) {
+        return left;
+    } else {
+        return null;
+    }
+}
+
+// returns the sum of the values of a BST at each level.
+List getSumLevel(Node node) {
+  Queue<Node> currLevel = new Queue<Node>();
+  currLevel.add(node);
+  List result = new ArrayList();
+  while (!currLevel.isEmpty()) {
+    int sum = 0;
+    Queue<Node> nextLevel = new Queue<Node>();
+    while (!currLevel.isEmpty()) {
+      Node n = currLevel.pop();
+      sum += n.val;
+      if (n.left != null) {
+        nextLevel.push(n.left);
+      }
+      if (n.right != null) {
+        nextLevel.push(n.right);
+      }
+    }
+    currLevel = nextLevel;
+  }
 }

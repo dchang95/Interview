@@ -37,4 +37,19 @@ public static Node detectCycles2(Node head) {
         }
         head = head.next;
 
+}     
+
+// reverse a singly linked list.
+void reverseLinkedList(Node head) {
+  Node prev = null;
+  Node next = null;
+  Node current = head;
+  while (current != null) {
+    next = current.next;
+    current.next = prev;
+    prev = current;
+    current = next;
+  }
+  node = prev;
+  return node;
 }

@@ -62,3 +62,37 @@ public static void divide(int dividend, int divider) {
         }
         return quotient;
 }
+
+// returns the first bad version O(logn).
+// Given n is the latest commit.
+public int firstBadVersion(int n) {
+        int start = 1;
+        int end = n;
+        while (start < end) {
+                // takes care of integer overflow.
+                int mid = start + (end-start) / 2;
+                if (isBadVersion(mid)) {
+                        end = mid;
+                } else {
+                        start = mid + 1;
+                }
+        }
+        return start;
+}
+
+// recursive version of first bad version.
+public int firstBadVersion(int n) {
+  return firstBadVersionTail(1, n);
+}
+
+public int firstBadVersionTail(int start, int end) {
+  int mid = start + (end-start) / 2;
+  if (start >= end) {
+    return start;
+  }
+  if (isBadVersion(mid)) {
+    return firstBadVersionTail(start, mid)
+  } else {
+    return firstBadVersionTail(mid + 1, end);
+  }
+}

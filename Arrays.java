@@ -1,5 +1,24 @@
+// returns the index in the array such that the elements on the left sum is equal to the sum of the elements on the right.
+public static int equilibrium(int[] arr) {
+    int length = arr.length();
+    for (int i = 1; i < length; i++) {
+        int leftSum = 0;
+        int rightSum = 0;
+        for (int j = 0; j < i; j++) {
+            leftSum += arr[j];
+        }
+        for (int k = i + 1; k < length; k++) {
+            rightSum += arr[k];
+        }
+        if (rightSum == leftSum) {
+            return i;
+        } 
+    }
+    return -1;
+}
+
 // find the max contiguous sum.
-public stantic int maxContiguous(ArrayList<Integer> arr) {
+public static int maxContiguous(ArrayList<Integer> arr) {
         int result = Integer.MIN_VALUE;
         int curr = 0;
         for (Integer i : arr) {
@@ -94,7 +113,7 @@ public ArrayList<ArrayList<Integer> > threeSum(ArrayList<Integer> a) {
         return result;
 }
 
-/**
+/*
    Anti diagonals.
 
    Input:
@@ -182,3 +201,48 @@ public ArrayList<ArrayList<Integer>> generate(int a) {
         }
         return result;
 }
+
+// merge intervals. O(nlogn)
+public List<Interval> merge(List<Interval> intervals) {
+    if (intervals.size() <= 1)
+        return intervals;
+
+    // Sort by ascending starting point using an anonymous Comparator
+    intervals.sort((i1, i2) -> Integer.compare(i1.start, i2.start));
+
+    List<Interval> result = new LinkedList<Interval>();
+    int start = intervals.get(0).start;
+    int end = intervals.get(0).end;
+
+    for (Interval interval : intervals) {
+        if (interval.start <= end) // Overlapping intervals, move the end if needed
+            end = Math.max(end, interval.end);
+        else {                     // Disjoint intervals, add the previous one and reset bounds
+            result.add(new Interval(start, end));
+            start = interval.start;
+            end = interval.end;
+        }
+    }
+
+    // Add the last interval
+    result.add(new Interval(start, end));
+    return result;
+}
+
+// retrun longest substring without repeating characters. O(2n) each char visited twice by i and j.
+public int lengthOfLongestSubstring(String s) {
+       int n = s.length();
+       Set<Character> set = new HashSet<>();
+       int ans = 0, i = 0, j = 0;
+       while (i < n && j < n) {
+           // try to extend the range [i, j]
+           if (!set.contains(s.charAt(j))){
+               set.add(s.charAt(j++));
+               ans = Math.max(ans, j - i);
+           }
+           else {
+               set.remove(s.charAt(i++));
+           }
+       }
+       return ans;
+   }
