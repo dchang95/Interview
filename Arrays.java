@@ -12,7 +12,7 @@ public static int equilibrium(int[] arr) {
         }
         if (rightSum == leftSum) {
             return i;
-        } 
+        }
     }
     return -1;
 }
@@ -246,3 +246,40 @@ public int lengthOfLongestSubstring(String s) {
        }
        return ans;
    }
+
+// array hopper
+public int jump(int[] nums) {
+     int maxJumps = 0;
+     int stepCount = 0;
+     int currJump = 0;
+     for (int i = 0; i < nums.length-1; i++) {
+         currJump = Math.max(currJump, i + nums[i]);
+         if (i == maxJumps) {
+             stepCount++;
+             maxJumps = currJump;
+         }
+     }
+     return stepCount;
+ }
+// given n non-negative integers, where the width of each digit is 1,
+// compute how much water can fill it
+ public int trappingRainWater(int[] height) {
+        int leftMax = 0;
+        int rightMax = 0;
+        int max = 0;
+        int start = 0;
+        int end = height.length - 1;
+        while (start <= end) {
+            leftMax = Math.max(leftMax, height[start]);
+            rightMax = Math.max(rightMax, height[end]);
+            if (leftMax < rightMax) {
+                max += (leftMax - height[start]);
+                start++;
+            } else {
+                max += (rightMax - height[end]);
+                end--;
+            }
+        }
+        return max;
+
+ }

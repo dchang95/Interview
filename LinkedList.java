@@ -37,7 +37,21 @@ public static Node detectCycles2(Node head) {
         }
         head = head.next;
 
-}     
+}  
+
+ public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode a = headA;
+        ListNode b = headB;
+        
+        while (a != b) {
+            a = a == null ? headB : a.next; 
+            b = b == null ? headA : b.next;
+        }
+        return a;
+    }   
 
 // reverse a singly linked list.
 void reverseLinkedList(Node head) {
