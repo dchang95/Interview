@@ -182,15 +182,15 @@ List getSumLevel(Node node) {
 }
 
 // SERIALIZE AND DESERIALIZE A BST.
-    
+
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         StringBuilder sb = new StringBuilder();
         buildString(root, sb);
         return sb.toString();
-        
+
     }
-    
+
     private void buildString(TreeNode root, StringBuilder sb) {
         if (root == null) {
             sb.append("X").append(",");
@@ -207,7 +207,7 @@ List getSumLevel(Node node) {
         nodes.addAll(Arrays.asList(data.split(",")));
         return buildTree(nodes);
     }
-    
+
     private TreeNode buildTree(Queue<String> nodes) {
         String val = nodes.remove();
         if (val.equals("X")) {
@@ -219,4 +219,66 @@ List getSumLevel(Node node) {
             return node;
         }
     }
+}
+
+// Autocomplete Trie solution
+
+public class Autocomplete {
+  private class Node {
+    String prefix;
+    HashMap<Character, Node> children;
+    boolean isWord;
+
+    private Node(String prefix) {
+      this.prefix = prefix;
+      this.children = new HashMap<Character, Node>();
+    }
+  }
+
+  private Node trie;
+
+  public Autocomplete(String[] dict) {
+    trie = new Node("");
+    for (String s : dict) {
+      insertWord(s)
+    }
+  }
+
+  private void insertWord(String s) {
+    Node curr = trie;
+    for (int i = 0; i < s.length(); i++) {
+      if (!curr.children.containsKey(s.charAt(i))) {
+        curr.children.put(new Node(s.substring(0, i + 1)));
+      }
+      curr = curr.children.get(s.charAt(i));
+      if (i == s.length() - 1) {
+        curr.isWord == true;
+      }
+    }
+  }
+
+  public List<String> getWordsForPrefix(String prefix) {
+    List<String> results = new LinkedList<String>();
+    Node curr = trie;
+    for (char c : prefix.toCharArray()) {
+      if (curr.children.containsKey(c)) {
+        curr = curr.children.get(c);
+      } else {
+        return results;
+      }
+    }
+    findAllChildWords(curr, result);
+    return result;
+  }
+
+  private void findAllChildWords(Node n, List<String> results) {
+    if (n.isWord) {
+      results.add(n.prefix);
+    }
+    for (Character c : n.children.keySet()) {
+      findAllChildWords(n.children.get(c), results);
+    }
+  }
+
+
 }

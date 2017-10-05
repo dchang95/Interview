@@ -283,3 +283,53 @@ public int jump(int[] nums) {
         return max;
 
  }
+
+ public List windowSum (List<Integer> list, int window) {
+   List<Integer> result = new ArrayList<Integer>();
+   int current = 0;
+   for (int i = 0; i < window; i++) {
+     current += list.get(i);
+   }
+   result.add(current);
+   int numWindows = list.size() - windows + 1;
+   for (int i = 1; numWindows; i++) {
+     int sum = current + list.get(i + window - 1) - list.get(i-1);
+     result.add(sum);
+     current = sum;
+   }
+   return result;
+
+ }
+
+ private final String[] LessThanTwenty = ["", "One", "Two", ... "Nineteen"];
+ private final String[] Tens = ["", "Ten", "Twenty"..., "Ninety"];
+ private final String[] thousands = ["", "Thousand", "Million", "Billion"];
+
+ public String numberToWords(int num) {
+   if (num == 0) {
+     return "Zero";
+   }
+   int i = 0;
+   String words = "";
+   while (num > 0) {
+     if (num % 1000 != 0) {
+       words = helper(num % 1000) + thousands[i] + " " + words;
+     }
+     num /= 1000;
+     i++;
+   }
+   return words;
+
+ }
+
+ public String helper(int num) {
+   if (num == 0) {
+     return "";
+   } else if (num < 20) {
+     return LessThanTwenty[num] + " ";
+   } else if (num < 100) {
+     return Tens[num / 10] + " " + helper(num % 10);
+   } else {
+     return LessThanTwenty[num / 100] + " hundred " + helper(num % 100);
+    }
+ }
